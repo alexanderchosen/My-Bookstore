@@ -15,12 +15,24 @@ app.use(bodyParser.json())
 
 
 app.get("/", (req, res) =>{
-    res.send ("Welcome to your favorite Bookstore!")
+    res.send("Welcome to your favorite Bookstore!")
 })
+
+// error handler MW
+app.use((err, req, res, next)=>{
+    console.log(err)
+
+    const errorStatus = err.status || 500
+
+    res.status(errorStatus).send("An error occured")
+
+    next()
+})
+
 
 // to start server
 app.listen(CONFIG.PORT, ()=>{
-    console.log(`Server started on https://localhost:${CONFIG.PORT}`)
+    console.log(`Server started on http://localhost:${CONFIG.PORT}`)
 }) 
 
 

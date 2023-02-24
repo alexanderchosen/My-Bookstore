@@ -10,8 +10,9 @@ function connectToDb(){
         console.log("Connection to MongoDB successful")
     })
 
-    mongoose.connection.on("error", ()=>{
+    mongoose.connection.on("error", (err)=>{
         console.log("Connection to MongoDB failed")
+        console.log(err)
     })
 }
 
