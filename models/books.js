@@ -14,8 +14,8 @@ const BookSchema = new Schema ({
         required: true
     },
     isbn: {
-        type: Number,
-        required: true,
+        type:String,
+         required: true,
         unique: [true, "Each book must have a unique ISBN"]
     },
     year: {
