@@ -63,10 +63,10 @@ bookRouter.put('/edit/:id', validateUpdateBookMW, (req, res)=>{
             message:{
                 "_id": updatedBook.id,
                 "title": updatedBook.title,
-                "description": updatedBook.description = description,
-                "isbn": updatedBook.isbn = isbn,
-                "year": updatedBook.year = year,
-                "price": updatedBook.price = price,
+                "description": updatedBook.description = description || updatedBook.description,
+                "isbn": updatedBook.isbn = isbn || updatedBook.isbn,
+                "year": updatedBook.year = year || updatedBook.year,
+                "price": updatedBook.price = price || updatedBook.price,
                 "lastUpdateAt": new Date()
             }
         })
