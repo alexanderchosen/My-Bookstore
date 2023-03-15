@@ -4,7 +4,7 @@ const booksModel = require("../models/books")
 
 const bookRouter = express.Router()
 
-bookRouter.get('/', (req, res)=>{
+bookRouter.get('/all', (req, res)=>{
     booksModel.find()
     .then(books =>{
         res.status(200).json({
@@ -51,16 +51,24 @@ bookRouter.put('/edit/:id', validateUpdateBookMW, (req, res)=>{
     // fetch the update from the body and id from params, update the lasUpdateAt field with current time
 
     const id = req.params.id
-    const bookUpdate = req.body
+    const {description, isbn, year, price } = req.body
 
-    bookUpdate.lastUpdateAt = new Date() // try Date.now
+    // bookUpdate.lastUpdateAt = new Date() // try Date.now
 
     // use booksModel to find and update book by ID, 
-    const updatedBook = booksModel.findByIdAndUpdate(id)
+    const updatedBook = booksModel.findByIdAndUpdate({_id: id})
     .then(updatedBook =>{
         res.status(200).json({
             status: true,
-            message:updatedBook
+            message:{
+                "_id": updatedBook.id,
+                "title": updatedBook.title,
+                "description": updatedBook.description = description,
+                "isbn": updatedBook.isbn = isbn,
+                "year": updatedBook.year = year,
+                "price": updatedBook.price = price,
+                "lastUpdateAt": new Date()
+            }
         })
     }).catch(err =>{
         const errorStatus = err.status
