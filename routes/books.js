@@ -70,6 +70,7 @@ bookRouter.put('/edit/:id', validateUpdateBookMW, (req, res)=>{
                 "lastUpdateAt": new Date()
             }
         })
+        updatedBook.save()
     }).catch(err =>{
         const errorStatus = err.status
         res.status(errorStatus).json({
@@ -78,6 +79,26 @@ bookRouter.put('/edit/:id', validateUpdateBookMW, (req, res)=>{
         })
     })
     // then, respond book update if successful and catch error if not successful
+})
+
+
+// delete route
+bookRouter.delete("/delete/:id", (req, res)=>{
+    const id = req.params.id
+    
+    booksModel.findByIdAndDelete({_id: id})
+    .then(deletedBook =>{
+        res.status(200).json({
+            status: true,
+            message: `Book with ${id} has been successfully deleted`
+        })
+    })
+    .catch(err =>{
+        res.status(404).json({
+            status: false,
+            message: err
+        })
+    })
 })
 
 module.exports = bookRouter
