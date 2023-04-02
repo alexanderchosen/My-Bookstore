@@ -6,6 +6,8 @@ const bookRouter = express.Router()
 
 bookRouter.get('/all', booksController.getAllBooks )
 
+bookRouter.get('/:id', booksController.getBookById)
+
 bookRouter.post('/new', validateAddBookMW, booksController.postBook)
 
 bookRouter.put('/edit/:id', validateUpdateBookMW, booksController.updateBook)

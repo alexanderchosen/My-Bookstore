@@ -17,6 +17,26 @@ function getAllBooks(req, res){
     })
 }
 
+function getBookById(req, res){
+    const specificBook = req.params.id
+
+    booksModel.findById(specificBook)
+    .then(book =>{
+        res.status(200).json({
+            status: true,
+            message: book
+        })
+    })
+    .catch(err =>{
+        console.log(err)
+        res.status(404).json({
+            status: false,
+            message: err
+        })
+    })
+
+}
+
 const postBook = function(req, res){
     const reqBody = req.body
 
@@ -97,6 +117,7 @@ const deleteBookById = function(req, res){
 
 module.exports = {
     getAllBooks,
+    getBookById,
     postBook,
     updateBook,
     deleteBookById
