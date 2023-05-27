@@ -5,6 +5,7 @@ const connectToDb = require("./database/mongoDb")
 
 // Routes
 const bookRouter = require("./routes/books")
+const authorRouter = require("./routes/authors")
 
 
 const app = express()
@@ -17,6 +18,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 app.use("/api/v1/books",bookRouter)
+app.use("/api/v1/authors", authorRouter)
 
 app.get("/", (req, res) =>{
     res.status(200).send("Welcome to your favorite Bookstore!")

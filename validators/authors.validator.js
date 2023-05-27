@@ -25,9 +25,7 @@ const AddAuthorValidator = Joi.object({
     .trim()
     .required(),
 
-    DOB: Joi.date()
-    .min(1900)
-    .max(2022),
+    DOB: Joi.date(),
 
     country: Joi.string(),
     
@@ -47,15 +45,15 @@ const UpdateAuthorValidator = Joi.object({
     username: Joi.string()
     .min(5)
     .max(255)
-    .trim()
-    .required(),
+    .trim(),
 
     bio: Joi.string()
     .min(10)
     .max(255)
-    .trim()
-    .required(),
-    
+    .trim(),
+
+    DOB: Joi.date(),
+
     books: Joi.array()
     .items(Joi.string()),
 

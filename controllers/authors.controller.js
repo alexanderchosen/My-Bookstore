@@ -42,7 +42,7 @@ function getAuthorById(req, res){
 // add new author
 const addAuthors = function(req, res){
     const profile = req.body
-
+// DOB input has to be in Date format before it is changed and saved as a string
     authorModel.create({
         firstName: profile.firstName,
         lastName: profile.lastName,
@@ -73,22 +73,23 @@ const addAuthors = function(req, res){
 const updateAuthor = function(req, res){
     const id = req.params.id
 
-    const {bio, username} = req.body
+    const {bio, username, DOB} = req.body
 
-    const updatedAuthor = authorModel.findByIdAndUpdate({id: id})
-    .then(authorUpdated =>{
+    const updatedAuthor = authorModel.findByIdAndUpdate({_id: id})
+    .then(updatedAuthor=>{
         res.status(200).json({
             status: true,
             message: {
                 "_id": updatedAuthor.id,
                 "username": updatedAuthor.username = username ||updatedAuthor.username,
                 "bio": updatedAuthor.bio = bio || updatedAuthor.bio,
+                "DOB": updatedAuthor.DOB = DOB || updatedAuthor.DOB,
                 "books": updatedAuthor.books,
                 "lastUpdatedAt": new Date()
             }
         })
+        updatedAuthor.save()
     })
-    updatedAuthor.save()
     .catch(err =>{
         console.log(err)
 

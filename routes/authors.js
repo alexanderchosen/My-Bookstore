@@ -6,7 +6,7 @@ const {AddAuthorValidatorMW, UpdateAuthorValidatorMW} = require('../validators/a
 
 const authorRouter = express.Router()
 
-authorRouter.get('/', authorController.getAllAuthors)
+authorRouter.get('/all', authorController.getAllAuthors)
 
 authorRouter.get('/profile/:authorID', authorController.getAuthorById)
 
