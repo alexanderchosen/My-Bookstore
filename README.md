@@ -35,6 +35,7 @@ npm install
 
 ```sh
 npm run dev
+nodemon app.js
 ```
 
 ## Run tests
