@@ -104,11 +104,11 @@ const updateAuthor = function(req, res){
 function deleteAuthor (req, res){
     const id = req.params.id
 
-    authorModel.findByIdAndDelete({id: id})
+    authorModel.findByIdAndDelete({_id: id})
     .then(deletedAuthor =>{
         res.status(200).json({
             status: true,
-            message: deleteAuthor
+            message: deletedAuthor
         })
     })
     .catch(err =>{
