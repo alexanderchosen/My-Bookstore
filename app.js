@@ -1,6 +1,8 @@
 const express = require ("express")
 const bodyParser = require ("body-parser")
 const CONFIG = require ("./config/config")
+const rateLimiter = require("express-rate-limit")
+const helmet = require("helmet")
 const connectToDb = require("./database/mongoDb")
 
 // Routes
@@ -16,6 +18,31 @@ connectToDb()
 // add bodyparser middleware for both url and forms-encoded
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+
+const limiter = rateLimiter({
+	windowMs: 1440 * 60 * 1000, // 24 hours = 1440 minutes
+	max: 100, // Limit each IP to 100 requests per `window` (here, per 24 hours)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+
+// Apply the rate limiting middleware to all requests
+app.use(limiter)
+
+// custom rate-limiter for creating new authors per IP
+const createAuthorLimiter = rateLimiter({
+	windowMs: 60 * 60 * 1000, // 1 hour
+	max: 1, // Limit each IP to 1 create account requests per `window` (here, per hour)
+	message:
+		'Too many authors created from this IP, please try again after an hour',
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+// apply to only the create new author's route
+app.use("/api/v1/authors/create", createAuthorLimiter)
+
+// use helmet MW to protect from some web vulnerabilities
+app.use(helmet())
 
 app.use("/api/v1/books",bookRouter)
 app.use("/api/v1/authors", authorRouter)
